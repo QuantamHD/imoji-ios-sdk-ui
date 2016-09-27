@@ -1081,7 +1081,7 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
                     [self.images addObject:[@[[NSNull null]] mutableCopy]];
                 }
 
-                [insertedPaths addObject:[NSIndexPath indexPathForRow:i + offset inSection:self.numberOfSections - 1]];
+                [insertedPaths addObject:[NSIndexPath indexPathForItem:i + offset inSection:self.numberOfSections - 1]];
             }
         }
 
@@ -1096,7 +1096,12 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
             } else {
                 [self performBatchUpdates:^{
                     if (loadingOffset != NSNotFound) {
-                        [self deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:loadingOffset inSection:self.numberOfSections - 1]]];
+                        [self deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:loadingOffset inSection:self.numberOfSections - 1]]];
+                    }
+
+                    // Avoid assertion failure
+                    if (offset == 0 && self.numberOfSections < 2) {
+                        [self insertSections:[NSIndexSet indexSetWithIndex:0]];
                     }
 
                     if (insertedPaths.count > 0) {
