@@ -308,8 +308,12 @@ CGFloat const IMCollectionViewMaximumMSStickerSize = 512000;
 #pragma mark UICollectionViewDelegate
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    id cellContent = self.content[(NSUInteger) indexPath.section][@"imojis"][(NSUInteger) indexPath.row];
-    return cellContent && ![cellContent isKindOfClass:[NSNull class]];
+    if (self.content.count > indexPath.section && ((NSArray *)self.content[(NSUInteger) indexPath.section][@"imojis"]).count > indexPath.row) {
+        id cellContent = self.content[(NSUInteger) indexPath.section][@"imojis"][(NSUInteger) indexPath.row];
+        return cellContent && ![cellContent isKindOfClass:[NSNull class]];
+    }
+    
+    return NO;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -1178,16 +1182,18 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
                  atIndex:(NSUInteger)index
                   offset:(NSUInteger)offset
                operation:(NSOperation *)operation {
-    self.images[section][index + offset] = content ? content : [NSNull null];
-    NSIndexPath *newPath = [NSIndexPath indexPathForItem:(index + offset) inSection:section];
+    if (self.images.count > section && ((NSArray *)self.images[section]).count > (index + offset)) {
+        self.images[section][index + offset] = content ? content : [NSNull null];
+        NSIndexPath *newPath = [NSIndexPath indexPathForItem:(index + offset) inSection:section];
 
-    BOOL doReload = self.pendingCollectionViewUpdates.count == 0;
-    [self.pendingCollectionViewUpdates addObject:newPath];
+        BOOL doReload = self.pendingCollectionViewUpdates.count == 0;
+        [self.pendingCollectionViewUpdates addObject:newPath];
 
-    // if the pending collection view list was empty, go ahead and call the reload method, otherwise, allow
-    // the method to perform the reload after the last batch update completes
-    if (doReload) {
-        [self reloadPendingUpdatesWithOperation:operation];
+        // if the pending collection view list was empty, go ahead and call the reload method, otherwise, allow
+        // the method to perform the reload after the last batch update completes
+        if (doReload) {
+            [self reloadPendingUpdatesWithOperation:operation];
+        }
     }
 }
 
@@ -1235,7 +1241,7 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
 
 - (void)processCellAnimations:(NSIndexPath *)currentIndexPath {
     UICollectionViewCell *viewCell = [self cellForItemAtIndexPath:currentIndexPath];
-    if (viewCell) {
+    if (viewCell && [viewCell isKindOfClass:[IMCollectionViewCell class]]) {
         [(IMCollectionViewCell *) viewCell performTappedAnimation];
     }
 }
