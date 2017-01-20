@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.homepage = 'https://imoji.io/developers'
   s.authors = {'Alex Hoang'=>'alex@imojiapp.com', 'Nima Khoshini'=>'nima@imojiapp.com', 'Jeff Wang'=>'jeffkwang@gmail.com'}
 
-  s.source   = { :git => 'https://github.com/imojiengineering/imoji-ios-sdk-ui.git', :tag => s.version.to_s }
+  s.source   = { :git => 'https://github.com/QuantamHD/imoji-ios-sdk-ui.git', :tag => s.version.to_s }
   s.ios.deployment_target = '7.0'
 
   s.requires_arc = true
@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'CollectionView' do |ss|
     ss.dependency "YYImage/WebP", "~> 1.0"
-    ss.dependency "ImojiSDK/Core", :git => 'https://github.com/QuantamHD/imoji-ios-sdk.git', :commit => '81088ed7da0f958f68c21e2b24373a0b94de88b7'
+    ss.dependency "ImojiSDK/Core"
     ss.dependency "ImojiSDKUI/Common"
     ss.dependency "Masonry"
 
@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'Editor' do |ss|
-    ss.dependency "ImojiSDK/Core"
+    ss.dependency "ImojiSDK/Core", :git => 'https://github.com/QuantamHD/imoji-ios-sdk.git', :commit => '81088ed7da0f958f68c21e2b24373a0b94de88b7'
     ss.dependency "ImojiSDKUI/Common"
     ss.dependency "Masonry"
 
