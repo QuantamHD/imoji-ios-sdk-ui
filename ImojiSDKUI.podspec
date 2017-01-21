@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'CollectionView' do |ss|
     ss.dependency "YYImage/WebP", "~> 1.0"
-    ss.dependency "ImojiSDK/Core", :git => 'https://github.com/QuantamHD/imoji-ios-sdk.git'
+    ss.dependency "ImojiSDKNo/Core"
     ss.dependency "ImojiSDKUI/Common"
     ss.dependency "Masonry"
 
@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'Editor' do |ss|
-    ss.dependency "ImojiSDK/Core", :git => 'https://github.com/QuantamHD/imoji-ios-sdk.git'
+    ss.dependency "ImojiSDKNo/Core"
     ss.dependency "ImojiSDKUI/Common"
     ss.dependency "Masonry"
 
